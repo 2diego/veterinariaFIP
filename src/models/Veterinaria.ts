@@ -4,6 +4,7 @@ import { Paciente } from "./Paciente";
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./Sucursal";
 import { GeneradorID } from "../app/GeneradorID";
+import { VeterinariaFactory } from '../factories/VeterinariaFactory';
 
 export class Veterinaria {
   private nombre: string;
@@ -95,50 +96,36 @@ export class Veterinaria {
 
   //Metodos add
   public ingresarSucursal(): void {
-    const direccionSucursal: string = readlineSync.question(`Ingrese la direccion de la sucursal a ingresar: `)
-    const telefono: number = readlineSync.questionInt("Ingrese el telefono de la sucursal: ");
-    const sucursal: Sucursal = new Sucursal(direccionSucursal, telefono)
+    const sucursal: Sucursal = VeterinariaFactory.crearNuevo('sucursal');
     this.sucursales.push(sucursal);
     console.log(`\nSe agrego la sucursal de ${sucursal.getDireccion()} correctamente.`);
   }
 
   public ingresarProveedor(): void {
-    const nombre: string = readlineSync.question("Ingrese el nombre del proveedor: ");
-    const telefono: number = readlineSync.questionInt("Ingrese el telefono del proveedor: ");
-    const nuevoProveedor: Proveedor = new Proveedor(nombre,telefono)
+    const nuevoProveedor: Proveedor = VeterinariaFactory.crearNuevo('proveedor');
     this.proveedores.push(nuevoProveedor);
     console.log(`\nSe agrego el proveedor ${nuevoProveedor.getNombre()} correctamente.`);
   }
 
 
   public ingresarCliente(): void {
-    const nombre: string = readlineSync.question("Ingrese el nombre del cliente: ");
-    const telefono: number = readlineSync.questionInt("Ingrese el telefono del cliente: ");
-    const nuevoCliente : Cliente = new Cliente(nombre,telefono)
+    const nuevoCliente : Cliente = VeterinariaFactory.crearNuevo('cliente');
     this.clientes.push(nuevoCliente);
     console.log(`\nSe agrego el cliente ${nuevoCliente.getNombre()} correctamente.`); 
   }
 
   public ingresarPaciente(): void {
     console.table(this.getClientes());
-    let nombre: string = readlineSync.question("Ingrese el nombre de la mascota: ");
-    let tipo: string = readlineSync.question("Ingrese el tipo de la mascota (perro, gato o exotica): ");
-    let clienteID: string = readlineSync.question("Ingrese el ID del duenio de la mascota: ");
-    if (tipo !== "perro" && tipo !== "gato" && tipo !== "exotica") {
-      console.error("Error: Tipo de mascota no valido. Por favor, ingrese 'perro', 'gato' o 'exotica'.");
+    let nuevoPaciente: Paciente | undefined = VeterinariaFactory.crearNuevo('paciente');
+    if (nuevoPaciente === undefined) {
       return;
-    } else if (this.getClientes().find((cliente) => cliente.getId() === clienteID) === undefined) {
-      console.error(`Error: No existe el cliente con ID ${clienteID}.`);
-      return;
-    } else {
-      let nuevoPaciente: Paciente = new Paciente(nombre, tipo, clienteID);
-      if (!this.verificarCliente(nuevoPaciente.getId())) {
+    } else if (!this.verificarCliente(nuevoPaciente.getId())) {
         console.error(`\nError: No existe el duenio de ${nuevoPaciente.getNombre()}.`);
       } else {
         this.pacientes.push(nuevoPaciente);
         console.log(`\nSe agrego el paciente ${nuevoPaciente.getNombre()} correctamente.`);
       }
-    }
+    
   }
 
   //Metodos delete
