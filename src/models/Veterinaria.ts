@@ -3,7 +3,7 @@ import { Cliente } from "./Cliente";
 import { Paciente } from "./Paciente";
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./Sucursal";
-import { GeneradorID } from "../app/GeneradorID";
+import { GeneradorID } from "../utils/GeneradorID";
 import { VeterinariaFactory } from '../factories/VeterinariaFactory';
 import { ClienteRepository } from '../repositories/ClienteRepository';
 

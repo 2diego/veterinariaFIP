@@ -1,5 +1,5 @@
 import { Paciente } from "../models/Paciente";
-import { solicitarDatos } from "../app/CapturarDatos";
+import { solicitarDatos } from "../utils/capturar-datos";
 
 export class PacienteRepository {
   private pacientes: Paciente[];

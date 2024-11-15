@@ -1,8 +1,8 @@
 import { Cliente } from "../models/Cliente";
 import { Paciente } from "../models/Paciente";
 import { VeterinariaFactory } from "../factories/VeterinariaFactory";
-import { GeneradorID } from "../app/GeneradorID";
-import { solicitarDatos } from "../app/CapturarDatos";
+import { GeneradorID } from "../utils/GeneradorID";
+import { solicitarDatos } from "../utils/capturar-datos";
 import { PacienteRepository } from "./PacienteRepository";
 
 export class ClienteRepository {
