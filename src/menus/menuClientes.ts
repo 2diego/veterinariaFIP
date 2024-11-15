@@ -13,12 +13,12 @@ function verClientes(veterinaria: Veterinaria): void {
   }
 }
 
-function verMascotas(veterinaria: Veterinaria): void {
+function getPacientesPorId(veterinaria: Veterinaria): void {
   if (veterinaria.getClientes().length === 0) {
     console.log("\nNo existen clientes ni mascotas.");
   } else {
     console.table(veterinaria.getClientes());
-    veterinaria.getMascotas(); 
+    veterinaria.getPacientesPorId(); 
   }
 }
 
@@ -52,7 +52,7 @@ export function menuClientes(veterinaria: Veterinaria): void {
         verClientes(veterinaria);
         break;
       case "2":
-        verMascotas(veterinaria);
+        getPacientesPorId(veterinaria);
         break;
       case "3":
         veterinaria.ingresarCliente();
