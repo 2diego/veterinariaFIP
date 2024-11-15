@@ -31,7 +31,7 @@ export class ClienteRepository {
     const clienteId: string = solicitarDatos('id', ' del cliente:');
     let cliente: Cliente | undefined = this.getClientePorId(clienteId);
     if (cliente) {
-      let mascotas: Paciente[] = this.getPacientes().filter((mascota) => mascota.getId() === clienteId);
+      let mascotas: Paciente[] = this.pacienteRepo.filterPacientes(clienteId, undefined, true);
       if (mascotas.length > 0) {
         console.log(`\nLas mascotas del cliente ${cliente.getNombre()} con ID ${clienteId} son:`);
         console.table(mascotas)
@@ -81,7 +81,7 @@ export class ClienteRepository {
         const clienteId: string = solicitarDatos('id', ' del cliente a eliminar');
         if (this.getClientePorId(clienteId)) {
           this.clientes = this.clientes.filter(cliente => cliente.getId() !== clienteId);
-          this.pacienteRepo.eliminarPacientesPorId(clienteId);
+          this.pacienteRepo.filterPacientes(clienteId, undefined, false);
           GeneradorID.eliminarId(clienteId);
           console.log(`\nSe elimino el cliente con ID ${clienteId} y sus mascotas correctamente.`);
         } else {
@@ -141,8 +141,8 @@ export class ClienteRepository {
         const cliente: Cliente | undefined = this.getClientePorId(clienteId);
         if (cliente) {
           const nombreMascota: string = solicitarDatos('nombre', ' de la mascota:');
-          const mascota: Paciente | undefined = this.getPacientes().find((mascota) => mascota.getNombre() === nombreMascota);
-          if (!mascota) {
+          const pacienteFiltrado: Paciente[] = this.pacienteRepo.filterPacientes(clienteId, nombreMascota, true);
+          if (pacienteFiltrado.length === 0) {
             console.error(`Error: No existe la mascota con el nombre ${nombreMascota} del cliente con ID ${clienteId}.`);
           } else {
               cliente.setVisitas();
