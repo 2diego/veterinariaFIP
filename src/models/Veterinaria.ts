@@ -3,15 +3,16 @@ import { Cliente } from "./Cliente";
 import { Paciente } from "./Paciente";
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./Sucursal";
-import { GeneradorID } from "../app/GeneradorID";
+import { GeneradorID } from "../utils/GeneradorID";
 import { VeterinariaFactory } from '../factories/VeterinariaFactory';
 import { ClienteRepository } from '../repositories/ClienteRepository';
+import { SucursalRepository } from '../repositories/SucursalRepository';
 
 export class Veterinaria {
   private nombre: string;
   private direccion: string;
   private id: string;
-  private sucursales: Array<Sucursal>;
+  private sucursalRepo: SucursalRepository;
   private clienteRepo: ClienteRepository;
   private proveedores: Array<Proveedor>;
 
@@ -19,7 +20,7 @@ export class Veterinaria {
     this.id = GeneradorID.generarId();
     this.nombre = nuevoNombre;
     this.direccion = nuevaDireccion;
-    this.sucursales = [];
+    this.sucursalRepo = new SucursalRepository();
     this.clienteRepo = new ClienteRepository();
     this.proveedores = [];
   }  
@@ -35,7 +36,7 @@ export class Veterinaria {
     return this.direccion;  
   }
   public getSucursales(): Array<Sucursal> {
-    return this.sucursales;
+    return this.sucursalRepo.getSucursales();
   }
   public getProveedores(): Array<Proveedor> {
     return this.proveedores;
@@ -63,9 +64,7 @@ export class Veterinaria {
 
   //Metodos add
   public ingresarSucursal(): void {
-    const sucursal: Sucursal = VeterinariaFactory.crear('sucursal');
-    this.sucursales.push(sucursal);
-    console.log(`\nSe agrego la sucursal de ${sucursal.getDireccion()} correctamente.`);
+    this.sucursalRepo.ingresarSucursal();
   }
 
   public ingresarProveedor(): void {
@@ -85,21 +84,9 @@ export class Veterinaria {
 
   //Metodos delete
   public eliminarSucursal(): void {
-    if (this.getSucursales().length === 0) {
-      console.log("\nNo existen sucursales.");
-      return;
-    } else {
-        console.table(this.getSucursales());
-        const sucursalId = readlineSync.question("Ingrese el id de la sucursal: ")
-        if (this.verificarSucursal(sucursalId)) {
-          this.sucursales = this.sucursales.filter((sucursal) => sucursal.getId() !== sucursalId);
-          GeneradorID.eliminarId(sucursalId);
-          console.log(`\nSe elimino la sucursal con ID ${sucursalId} correctamente.`);
-        } else {
-            console.error(`\nError: La sucursal con ID ${sucursalId} no existe.`);
-          }
-      }
+    this.sucursalRepo.eliminarSucursal();
   }
+
   public eliminarProveedor(): void {
     if (this.getProveedores().length === 0) {
       console.log("\nNo existen proveedores.");
@@ -139,12 +126,4 @@ export class Veterinaria {
     }
   }
 
-  private verificarSucursal(sucursalId: string): Sucursal | undefined {
-    const sucursal: Sucursal | undefined = this.sucursales.find((sucursal) => sucursal.getId() === sucursalId);
-    if (sucursal) {
-      return sucursal;
-    } else {
-      `Error: No existe la sucursal con ID ${sucursalId}.`;
-    }
- }
 }

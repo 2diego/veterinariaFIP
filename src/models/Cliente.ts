@@ -1,4 +1,4 @@
-import { GeneradorID } from "../app/GeneradorID";
+import { GeneradorID } from "../utils/GeneradorID";
 
 export class Cliente {
   private id: string;

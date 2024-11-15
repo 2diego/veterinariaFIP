@@ -1,5 +1,6 @@
+import { equal } from "assert";
 import { Paciente } from "../models/Paciente";
-import { solicitarDatos } from "../app/CapturarDatos";
+import { solicitarDatos } from "../utils/capturar-datos";
 
 export class PacienteRepository {
   private pacientes: Paciente[];
@@ -12,10 +13,18 @@ export class PacienteRepository {
     return this.pacientes;
   }
 
+  public filterPacientes(id: string, nombre?: string, equal: boolean = false): Paciente [] {
+    return this.pacientes = this.pacientes.filter((p) => {
+      const matchId = p.getId() === id;
+      const matchName = nombre ? p.getNombre() === nombre : true;
+      return equal ? matchId && matchName : !(matchId && matchName);
+    });
+  }
+
   public ingresarPaciente(paciente: Paciente): void {
     this.pacientes.push(paciente);
   }
-  
+
   public eliminarPaciente(): void {
     if (this.getPacientes().length === 0) {
       console.log("\nNo existen pacientes.");
@@ -24,18 +33,16 @@ export class PacienteRepository {
         console.table(this.getPacientes());
         const pacienteId: string = solicitarDatos('id', ' del paciente a eliminar');
         const pacienteNombre: string = solicitarDatos('nombre', ' del paciente a eliminar');
-        const paciente: Paciente | undefined = this.getPacientes().find(paciente => paciente.getId() === pacienteId)
-        if (paciente && paciente.getNombre() === pacienteNombre) {
-          this.pacientes = this.pacientes.filter((p) => !(p.getId() === pacienteId && p.getNombre() === pacienteNombre));
-          console.log(`\nSe elimino el paciente ${pacienteNombre} con ID ${pacienteId} correctamente.`);
+        const pacientesEncontrados = this.filterPacientes(pacienteId, pacienteNombre, true);
+        if (pacientesEncontrados.length > 0) {
+          this.pacientes = this.filterPacientes(pacienteId, pacienteNombre, false);
+          console.log(`\nSe eliminó el paciente ${pacienteNombre} con ID ${pacienteId} correctamente.`);
         } else {
-            console.error(`\nError: El paciente ${pacienteNombre} con ID ${pacienteId} no existe.`);
-          } 
+          console.error(`\nError: El paciente ${pacienteNombre} con ID ${pacienteId} no existe.`);
+        }
       }
   }
 
-  public eliminarPacientesPorId(id: string): void {
-    this.pacientes = this.pacientes.filter((p) => !(p.getId() === id));
-  }
+  //public editarPaciente(): void {}
 
 }

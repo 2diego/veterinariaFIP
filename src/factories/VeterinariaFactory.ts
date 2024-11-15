@@ -2,7 +2,7 @@ import { Cliente } from "../models/Cliente";
 import { Paciente } from "../models/Paciente";
 import { Proveedor } from "../models/Proveedor";
 import { Sucursal } from "../models/Sucursal";
-import { solicitarDatos } from '../app/CapturarDatos';
+import { solicitarDatos } from '../utils/capturar-datos';
 
 export class VeterinariaFactory {
 

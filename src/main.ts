@@ -1,5 +1,5 @@
-import { menuPrincipal } from "../menus/menuPrincipal";
-import { Veterinaria } from "../models/Veterinaria";
+import { menuPrincipal } from "./menus/menu-principal";
+import { Veterinaria } from "./models/Veterinaria";
 
 
 let veterinaria: Veterinaria = new Veterinaria("Veterinaria Olavarria", "Colon 1234");

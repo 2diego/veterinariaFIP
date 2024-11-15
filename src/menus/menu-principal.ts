@@ -1,10 +1,10 @@
 import * as readlineSync from "readline-sync";
 import { Veterinaria } from "../models/Veterinaria";
-import { menuClientes } from "./menuClientes";
-import { menuPacientes } from "./menuPacientes";
-import { menuProveedor } from "./menuProveedor";
-import { menuAtender } from "./menuAtender";
-import { menuSucursal } from "./menuSucursales";
+import { menuClientes } from "./menu-clientes";
+import { menuPacientes } from "./menu-pacientes";
+import { menuProveedor } from "./menu-proveedores";
+import { menuAtender } from "./menu-atender";
+import { menuSucursal } from "./menu-sucursales";
 
 
 export function menuPrincipal(veterinaria: Veterinaria) {
