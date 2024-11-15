@@ -13,15 +13,21 @@ function verSucursales(veterinaria: Veterinaria): void {
 }
 
 function editarSucursal(veterinaria: Veterinaria): void {
-  let sucursalId: string = readlineSync.question("Ingrese el ID de la sucursal a editar: ");
-  let nuevaDireccion: string = readlineSync.question("Ingrese la nueva direccion de la sucursal: ");
-  let sucursal: Sucursal | undefined = veterinaria.getSucursales().find((sucursal) => sucursal.getId() === sucursalId);
-  if (sucursal) {
-    sucursal.setDireccion(nuevaDireccion);
-    console.log("Direccion de la sucursal editada correctamente.");
+  if (veterinaria.getSucursales().length === 0) {
+    console.log("\nNo existen sucursales.");
+    return;
   } else {
-    console.error(`Error: No existe la sucursal con ID ${sucursalId}.`);
-  }
+      console.table(veterinaria.getSucursales());
+      let sucursalId: string = readlineSync.question("Ingrese el ID de la sucursal a editar: ");
+      let nuevaDireccion: string = readlineSync.question("Ingrese la nueva direccion de la sucursal: ");
+      let sucursal: Sucursal | undefined = veterinaria.getSucursales().find((sucursal) => sucursal.getId() === sucursalId);
+      if (sucursal) {
+        sucursal.setDireccion(nuevaDireccion);
+        console.log("Direccion de la sucursal editada correctamente.");
+      } else {
+        console.error(`Error: No existe la sucursal con ID ${sucursalId}.`);
+      }
+    }
 }
 
 export function menuSucursal(veterinaria: Veterinaria): void {

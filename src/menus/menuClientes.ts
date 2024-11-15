@@ -24,15 +24,21 @@ function getPacientesPorId(veterinaria: Veterinaria): void {
 
 
 function modificarTelefono(veterinaria: Veterinaria): void {
-  let clienteIdModificar: string = readlineSync.question("Ingrese el ID del cliente a modificar: ");
-  let nuevoTelefono: number = readlineSync.questionInt("Ingrese el nuevo telefono del cliente: ");
-  let cliente: Cliente | undefined = veterinaria.getClientes().find((cliente) => cliente.getId() === clienteIdModificar);
-  if (cliente) {
-    cliente.setTelefono(nuevoTelefono);
-    console.log("Telefono modificado correctamente.");
-  } else if (!cliente) {
-    console.error(`Error: No existe el cliente con ID ${clienteIdModificar}.`);
-  }
+  if (veterinaria.getClientes().length === 0) {
+    console.log("\nNo existen clientes.");
+    return;
+  } else {
+      console.table(veterinaria.getClientes());
+      let clienteIdModificar: string = readlineSync.question("Ingrese el ID del cliente a modificar: ");
+      let cliente: Cliente | undefined = veterinaria.getClientes().find((cliente) => cliente.getId() === clienteIdModificar);
+      if (cliente) {
+        let nuevoTelefono: number = readlineSync.questionInt("Ingrese el nuevo telefono del cliente: ");
+        cliente.setTelefono(nuevoTelefono);
+        console.log("Telefono modificado correctamente.");
+      } else if (!cliente) {
+          console.error(`Error: No existe el cliente con ID ${clienteIdModificar}.`);
+        }
+    }
 }
 
 export function menuClientes(veterinaria: Veterinaria): void {

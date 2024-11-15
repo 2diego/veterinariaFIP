@@ -85,27 +85,37 @@ export class Veterinaria {
 
   //Metodos delete
   public eliminarSucursal(): void {
-    console.table(this.getSucursales());
-    const sucursalId = readlineSync.question("Ingrese el id de la sucursal: ")
-    if (this.verificarSucursal(sucursalId)) {
-      this.sucursales = this.sucursales.filter((sucursal) => sucursal.getId() !== sucursalId);
-      GeneradorID.eliminarId(sucursalId);
-      console.log(`\nSe elimino la sucursal con ID ${sucursalId} correctamente.`);
+    if (this.getSucursales().length === 0) {
+      console.log("\nNo existen sucursales.");
+      return;
     } else {
-      console.error(`\nError: La sucursal con ID ${sucursalId} no existe.`);
-    }
+        console.table(this.getSucursales());
+        const sucursalId = readlineSync.question("Ingrese el id de la sucursal: ")
+        if (this.verificarSucursal(sucursalId)) {
+          this.sucursales = this.sucursales.filter((sucursal) => sucursal.getId() !== sucursalId);
+          GeneradorID.eliminarId(sucursalId);
+          console.log(`\nSe elimino la sucursal con ID ${sucursalId} correctamente.`);
+        } else {
+            console.error(`\nError: La sucursal con ID ${sucursalId} no existe.`);
+          }
+      }
   }
   public eliminarProveedor(): void {
-    console.table(this.getProveedores());
-    const proveedorId = readlineSync.question("Ingrese el id del proveedor: ");
-    if (this.verificarProveedor(proveedorId)) {
-      this.proveedores = this.proveedores.filter((proveedor) => proveedor.getId() !== proveedorId);
-      GeneradorID.eliminarId(proveedorId);
-      console.log(`\nSe elimino el proveedor con ID ${proveedorId} correctamente.`);
+    if (this.getProveedores().length === 0) {
+      console.log("\nNo existen proveedores.");
+      return;
     } else {
-      console.error(`\nError: El proveedor con ID ${proveedorId} no existe.`);
+        console.table(this.getProveedores());
+        const proveedorId = readlineSync.question("Ingrese el id del proveedor: ");
+        if (this.verificarProveedor(proveedorId)) {
+          this.proveedores = this.proveedores.filter((proveedor) => proveedor.getId() !== proveedorId);
+          GeneradorID.eliminarId(proveedorId);
+          console.log(`\nSe elimino el proveedor con ID ${proveedorId} correctamente.`);
+        } else {
+            console.error(`\nError: El proveedor con ID ${proveedorId} no existe.`);
+          } 
+      }
   }
-}
 
   public eliminarCliente(): void {
     this.clienteRepo.eliminarCliente();
