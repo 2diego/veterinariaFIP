@@ -1,4 +1,3 @@
-import { equal } from "assert";
 import { Paciente } from "../models/Paciente";
 import { solicitarDatos } from "../utils/capturar-datos";
 
@@ -9,7 +8,7 @@ export class PacienteRepository {
     this.pacientes = [];
   }
 
-  public getPacientes(): Array<Paciente> {
+  public getPacientes(): Paciente[] {
     return this.pacientes;
   }
 
