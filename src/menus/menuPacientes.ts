@@ -2,17 +2,17 @@ import * as readlineSync from 'readline-sync';
 import { Veterinaria } from "../models/Veterinaria";
 import { Paciente } from '../models/Paciente';
 
-function verMascotasPorID(veterinaria: Veterinaria): void {
+function verPacientesPorID(veterinaria: Veterinaria): void {
   if (veterinaria.getClientes().length === 0) {
     console.log("\nNo existen clientes.");
   } else {
     console.log(`\n======= Listado de clientes =======`);
     console.table(veterinaria.getClientes());
-    veterinaria.getMascotas();
+    veterinaria.getPacientesPorId();
   }
 }
 
-function verMascotas(veterinaria: Veterinaria): void {
+function verPacientes(veterinaria: Veterinaria): void {
   let mascotas: Paciente[] = veterinaria.getPacientes();
   if (mascotas.length === 0) {
     console.log("\nNo existen mascotas.");
@@ -21,9 +21,6 @@ function verMascotas(veterinaria: Veterinaria): void {
     console.table(mascotas);
   }
 }
-
-
-
 
 export function menuPacientes(veterinaria: Veterinaria): void {
   let enPacientes = true;
@@ -38,10 +35,10 @@ export function menuPacientes(veterinaria: Veterinaria): void {
 \nSu eleccion: `);
     switch (nuevaAccion) {
       case "1":
-        verMascotasPorID(veterinaria);
+        verPacientesPorID(veterinaria);
         break;
       case "2":
-        verMascotas(veterinaria);
+        verPacientes(veterinaria);
         break;
       case "3":
         veterinaria.ingresarPaciente()
