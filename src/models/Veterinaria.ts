@@ -1,12 +1,11 @@
-import * as readlineSync from 'readline-sync';
 import { Cliente } from "./Cliente";
 import { Paciente } from "./Paciente";
 import { Proveedor } from "./Proveedor";
 import { Sucursal } from "./Sucursal";
 import { GeneradorID } from "../utils/GeneradorID";
-import { VeterinariaFactory } from '../factories/VeterinariaFactory';
 import { ClienteRepository } from '../repositories/ClienteRepository';
 import { SucursalRepository } from '../repositories/SucursalRepository';
+import { ProveedorRepository } from '../repositories/ProveedorRepository';
 
 export class Veterinaria {
   private nombre: string;
@@ -14,7 +13,7 @@ export class Veterinaria {
   private id: string;
   private sucursalRepo: SucursalRepository;
   private clienteRepo: ClienteRepository;
-  private proveedores: Array<Proveedor>;
+  private provRepo: ProveedorRepository;
 
   constructor(nuevoNombre: string, nuevaDireccion: string) {
     this.id = GeneradorID.generarId();
@@ -22,7 +21,7 @@ export class Veterinaria {
     this.direccion = nuevaDireccion;
     this.sucursalRepo = new SucursalRepository();
     this.clienteRepo = new ClienteRepository();
-    this.proveedores = [];
+    this.provRepo = new ProveedorRepository();
   }  
 
   //Getters
@@ -39,7 +38,7 @@ export class Veterinaria {
     return this.sucursalRepo.getSucursales();
   }
   public getProveedores(): Array<Proveedor> {
-    return this.proveedores;
+    return this.provRepo.getProveedores();
   }
 
   public getClientes(): Array<Cliente> {
@@ -58,6 +57,7 @@ export class Veterinaria {
   public setNombre(nuevoNombre: string): void {
     this.nombre = nuevoNombre;
   }
+  
   public setDireccion(nuevaDireccion: string): void {
     this.direccion = nuevaDireccion;
   }
@@ -68,11 +68,8 @@ export class Veterinaria {
   }
 
   public ingresarProveedor(): void {
-    const nuevoProveedor: Proveedor = VeterinariaFactory.crear('proveedor');
-    this.proveedores.push(nuevoProveedor);
-    console.log(`\nSe agrego el proveedor ${nuevoProveedor.getNombre()} correctamente.`);
+    this.provRepo.ingresarProveedor();
   }
-
 
   public ingresarCliente(): void {
     this.clienteRepo.ingresarCliente();
@@ -88,20 +85,7 @@ export class Veterinaria {
   }
 
   public eliminarProveedor(): void {
-    if (this.getProveedores().length === 0) {
-      console.log("\nNo existen proveedores.");
-      return;
-    } else {
-        console.table(this.getProveedores());
-        const proveedorId = readlineSync.question("Ingrese el id del proveedor: ");
-        if (this.verificarProveedor(proveedorId)) {
-          this.proveedores = this.proveedores.filter((proveedor) => proveedor.getId() !== proveedorId);
-          GeneradorID.eliminarId(proveedorId);
-          console.log(`\nSe elimino el proveedor con ID ${proveedorId} correctamente.`);
-        } else {
-            console.error(`\nError: El proveedor con ID ${proveedorId} no existe.`);
-          } 
-      }
+    this.provRepo.eliminarProveedor();
   }
 
   public eliminarCliente(): void {
@@ -112,18 +96,10 @@ export class Veterinaria {
     this.clienteRepo.eliminarPaciente();
   }
 
+  //public editar(propiedad: string): void { switch (propiedad) case cliente: this.clienteRepo.editarCliente();}
+
   public atender(): void {
     this.clienteRepo.atenderCliente();
-  }
-
-  //Metodos internos
-  private verificarProveedor(proveedorId: string): Proveedor | undefined {
-    const proveedor: Proveedor | undefined = this.proveedores.find((proveedor) => proveedor.getId() === proveedorId);
-    if (proveedor) {
-      return proveedor;
-    } else {
-      `Error: No existe el proveedor con ID ${proveedorId}.`;
-    }
   }
 
 }
