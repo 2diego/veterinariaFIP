@@ -50,7 +50,7 @@ export class Veterinaria {
   }
 
   public getPacientesPorId(): Paciente[] | undefined {
-    return this.clienteRepo.getPacientesPorId();
+    return this.clienteRepo.getPacientesPorCliente();
   }
 
   //Setters

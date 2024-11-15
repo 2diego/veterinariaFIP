@@ -3,10 +3,16 @@ import { Paciente } from "../models/Paciente";
 import { VeterinariaFactory } from "../factories/VeterinariaFactory";
 import { GeneradorID } from "../app/GeneradorID";
 import { solicitarDatos } from "../app/CapturarDatos";
+import { PacienteRepository } from "./PacienteRepository";
 
 export class ClienteRepository {
-  private clientes: Cliente[] = [];
-  private pacientes: Paciente[] = [];
+  private clientes: Cliente[];
+  private pacienteRepo: PacienteRepository;
+
+  constructor() {
+    this.clientes = [];
+    this.pacienteRepo = new PacienteRepository();
+  }
 
 //Getters
   public getClientes(): Array<Cliente> {
@@ -14,15 +20,14 @@ export class ClienteRepository {
   }
 
   public getPacientes(): Array<Paciente> {
-    //this.pacienteRepo.getPacientes();
-    return this.pacientes;
+    return this.pacienteRepo.getPacientes();
   }
 
   public getClientePorId(clienteId: string): Cliente | undefined {
     return this.clientes.find(cliente => cliente.getId() === clienteId);
   }
 
-  public getPacientesPorId(): Paciente[] | undefined {
+  public getPacientesPorCliente(): Paciente[] | undefined {
     const clienteId: string = solicitarDatos('id', ' del cliente:');
     let cliente: Cliente | undefined = this.getClientePorId(clienteId);
     if (cliente) {
@@ -49,7 +54,6 @@ export class ClienteRepository {
   }
 
   public ingresarPaciente(): void {
-    //this.pacienteRepo.ingresarPaciente();
     if (this.getClientes().length === 0) {
       console.log("\nNo existen clientes.");
       return;
@@ -61,7 +65,7 @@ export class ClienteRepository {
         } else if (!this.getClientePorId(nuevoPaciente.getId())) {
             console.error(`\nError: No existe el duenio de ${nuevoPaciente.getNombre()}.`);
           } else {
-            this.pacientes.push(nuevoPaciente);
+            this.pacienteRepo.ingresarPaciente(nuevoPaciente);
             console.log(`\nSe agrego el paciente ${nuevoPaciente.getNombre()} correctamente.`);
             } 
       }
@@ -77,7 +81,7 @@ export class ClienteRepository {
         const clienteId: string = solicitarDatos('id', ' del cliente a eliminar');
         if (this.getClientePorId(clienteId)) {
           this.clientes = this.clientes.filter(cliente => cliente.getId() !== clienteId);
-          this.pacientes = this.pacientes.filter((mascota) => mascota.getId() !== clienteId);
+          this.pacienteRepo.eliminarPacientesPorId(clienteId);
           GeneradorID.eliminarId(clienteId);
           console.log(`\nSe elimino el cliente con ID ${clienteId} y sus mascotas correctamente.`);
         } else {
@@ -87,22 +91,7 @@ export class ClienteRepository {
   } 
 
   public eliminarPaciente(): void {
-    //this.pacienteRepo.eliminarPaciente();
-    if (this.getPacientes().length === 0) {
-      console.log("\nNo existen pacientes.");
-      return;
-    } else {
-        console.table(this.getPacientes());
-        const pacienteId: string = solicitarDatos('id', ' del paciente a eliminar');
-        const pacienteNombre: string = solicitarDatos('nombre', ' del paciente a eliminar');
-        const paciente: Paciente | undefined = this.getPacientes().find(paciente => paciente.getId() === pacienteId)
-        if (paciente && paciente.getNombre() === pacienteNombre) {
-          this.pacientes = this.pacientes.filter((p) => !(p.getId() === pacienteId && p.getNombre() === pacienteNombre));
-          console.log(`\nSe elimino el paciente ${pacienteNombre} con ID ${pacienteId} correctamente.`);
-        } else {
-            console.error(`\nError: El paciente ${pacienteNombre} con ID ${pacienteId} no existe.`);
-          } 
-    }
+    this.pacienteRepo.eliminarPaciente();
   }
 
 //Metodos edit
