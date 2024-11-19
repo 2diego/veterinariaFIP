@@ -51,18 +51,18 @@ export class SucursalRepository {
         const sucursalId: string = solicitarDatos('id', ' de la sucursal a editar');
         const sucursal: Sucursal | undefined = this.getSucursalPorId(sucursalId);
         if (sucursal) {
-          const propEditar: string = solicitarDatos('editar', ' de la sucursal:');
+          const propEditar: string = solicitarDatos('editar', ' de la sucursal');
           switch (propEditar) {
             case "1":
-              console.log("La opcion Editar Direccion no esta disponible para sucursales.");
+              console.log("La opcion Editar Nombre no esta disponible para sucursales.");
               break;
             case "2":
-              const nuevoTelefono: number = solicitarDatos('telefono', ' de la sucursal:');
+              const nuevoTelefono: number = solicitarDatos('telefono', ' de la sucursal');
               sucursal.setTelefono(nuevoTelefono);
               console.log(`\nSe edito el telefono de la sucursal con ID ${sucursalId} correctamente.`);
               break;
             case "3":
-              const nuevaDireccion: string = solicitarDatos('direccion', ' de la sucursal:');
+              const nuevaDireccion: string = solicitarDatos('direccion', ' de la sucursal');
               sucursal.setDireccion(nuevaDireccion);
               console.log(`\nSe edito la direccion de la sucursal con ID ${sucursalId} correctamente.`);
               break;
