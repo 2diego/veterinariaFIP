@@ -13,41 +13,6 @@ function verProveedores(veterinaria: Veterinaria): void {
   }
 }
 
-function editarProveedor(veterinaria: Veterinaria): void {
-  if (veterinaria.getProveedores().length === 0) {
-    console.log("\nNo existen proveedores.");
-    return;
-  } else {
-      console.table(veterinaria.getProveedores());
-      let proveedorId: string = readlineSync.question("Ingrese el ID del proveedor a editar: ");
-      let proveedor: Proveedor | undefined = veterinaria.getProveedores().find((proveedor) => proveedor.getId() === proveedorId);
-      if (proveedor) {
-        let editar: string = readlineSync.question(`Seleccione que desea editar:
-            1. Nombre
-            2. Telefono
-          \nSu eleccion: `);
-        switch (editar) {
-          case "1":
-            let nuevoNombre: string = readlineSync.question("Ingrese el nuevo nombre del proveedor: ");
-            proveedor.setNombre(nuevoNombre);
-            console.log("Proveedor editado correctamente.");
-            break;
-          case "2":
-            let nuevoTelefono: number = readlineSync.questionInt("Ingrese el nuevo telefono del proveedor: ");
-            proveedor.setTelefono(nuevoTelefono);
-            console.log("Proveedor editado correctamente.");
-            break;
-          default:
-            console.error("Error: Opcion no valida");
-            break;
-        }
-      } else {
-        console.error(`Error: No existe el proveedor con ID ${proveedorId}.`);
-      }
-    }
-}
-
-
 export function menuProveedor(veterinaria: Veterinaria): void {
   let enProveedores = true;
   while (enProveedores) {
@@ -67,7 +32,7 @@ export function menuProveedor(veterinaria: Veterinaria): void {
         veterinaria.ingresarProveedor();
         break;
       case "3":
-        editarProveedor(veterinaria);
+        veterinaria.editar("proveedor");
         break;
       case "4":
         veterinaria.eliminarProveedor();

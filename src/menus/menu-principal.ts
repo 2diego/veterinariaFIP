@@ -3,7 +3,6 @@ import { Veterinaria } from "../models/Veterinaria";
 import { menuClientes } from "./menu-clientes";
 import { menuPacientes } from "./menu-pacientes";
 import { menuProveedor } from "./menu-proveedores";
-import { menuAtender } from "./menu-atender";
 import { menuSucursal } from "./menu-sucursales";
 
 
@@ -37,7 +36,8 @@ export function menuPrincipal(veterinaria: Veterinaria) {
         menuProveedor(veterinaria)
         break;
       case "5":
-        menuAtender(veterinaria);
+        console.log(`\n======= ATENCION AL PUBLICO =======`);
+        veterinaria.atender();;
         break;
       case "6":
         console.log("Saliendo...");

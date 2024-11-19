@@ -96,7 +96,25 @@ export class Veterinaria {
     this.clienteRepo.eliminarPaciente();
   }
 
-  //public editar(propiedad: string): void { switch (propiedad) case cliente: this.clienteRepo.editarCliente();}
+  public editar(propiedad: string): void {
+    switch (propiedad) {
+      case "cliente":
+        this.clienteRepo.editarCliente();
+        break;
+      case "sucursal":
+        this.sucursalRepo.editarSucursal();
+        break;
+      case "proveedor":
+        this.provRepo.editarProveedor();
+        break;
+      case "paciente":
+        this.clienteRepo.editarPaciente();
+        break;
+      default:
+        console.error("Error: Opcion no valida");
+        break;
+    }
+  } 
 
   public atender(): void {
     this.clienteRepo.atenderCliente();

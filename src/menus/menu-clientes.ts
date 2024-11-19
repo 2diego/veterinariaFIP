@@ -2,7 +2,6 @@ import * as readlineSync from 'readline-sync';
 import { Veterinaria } from "../models/Veterinaria";
 import { Cliente } from '../models/Cliente';
 
-
 function verClientes(veterinaria: Veterinaria): void {
   let clientes: Cliente[] = veterinaria.getClientes();
   if (clientes.length === 0) {
@@ -20,25 +19,6 @@ function getPacientesPorId(veterinaria: Veterinaria): void {
     console.table(veterinaria.getClientes());
     veterinaria.getPacientesPorId(); 
   }
-}
-
-
-function modificarTelefono(veterinaria: Veterinaria): void {
-  if (veterinaria.getClientes().length === 0) {
-    console.log("\nNo existen clientes.");
-    return;
-  } else {
-      console.table(veterinaria.getClientes());
-      let clienteIdModificar: string = readlineSync.question("Ingrese el ID del cliente a modificar: ");
-      let cliente: Cliente | undefined = veterinaria.getClientes().find((cliente) => cliente.getId() === clienteIdModificar);
-      if (cliente) {
-        let nuevoTelefono: number = readlineSync.questionInt("Ingrese el nuevo telefono del cliente: ");
-        cliente.setTelefono(nuevoTelefono);
-        console.log("Telefono modificado correctamente.");
-      } else if (!cliente) {
-          console.error(`Error: No existe el cliente con ID ${clienteIdModificar}.`);
-        }
-    }
 }
 
 export function menuClientes(veterinaria: Veterinaria): void {
@@ -64,7 +44,7 @@ export function menuClientes(veterinaria: Veterinaria): void {
         veterinaria.ingresarCliente();
         break;
       case "4":
-        modificarTelefono(veterinaria);
+        veterinaria.editar("cliente");
         break;
       case "5":
         veterinaria.eliminarCliente();
