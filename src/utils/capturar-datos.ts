@@ -1,6 +1,6 @@
 import * as readlineSync from 'readline-sync';
 
-export function solicitarDatos(eleccion: "cliente" | "paciente" | "proveedor" | "sucursal" | "editar" | "nombre" | "telefono" | "id" , frase?: string): any {
+export function solicitarDatos(eleccion: "cliente" | "paciente" | "proveedor" | "sucursal" | "editar" | "editarPaciente" | "nombre" | "telefono" | "id" | "especie" | "direccion", frase?: string): any {
 
   switch (eleccion) {
     case "cliente":
@@ -32,6 +32,13 @@ export function solicitarDatos(eleccion: "cliente" | "paciente" | "proveedor" | 
     \nSu eleccion: `);
     return propEditar;
 
+    case "editarPaciente":
+      const propEditarPacientes: string = readlineSync.question(`Seleccione que desea editar:
+        1. Nombre
+        2. Especie
+      \nSu eleccion: `);
+      return propEditarPacientes;
+
     case "nombre":
       const nombre: string = readlineSync.question(`Ingrese el nombre${frase}: `);
       return nombre;
@@ -43,6 +50,14 @@ export function solicitarDatos(eleccion: "cliente" | "paciente" | "proveedor" | 
     case "id":
       const id: string = readlineSync.question(`Ingrese el ID${frase}: `);
       return id;
+
+    case "especie":
+      const nuevaEspecie: "perro" | "gato" | "exotica" = readlineSync.question(`Ingrese la especie de la mascota (perro, gato o exotica): `) as "perro" | "gato" | "exotica";
+      return nuevaEspecie;
+
+    case "direccion":
+      const nuevaDireccion: string = readlineSync.question(`Ingrese la direccion${frase}: `);
+      return nuevaDireccion;
 
     default:
       console.log("Opción no válida");

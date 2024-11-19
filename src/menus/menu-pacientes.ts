@@ -30,8 +30,9 @@ export function menuPacientes(veterinaria: Veterinaria): void {
         1. Ver pacientes por cliente
         2. Ver todos los pacientes
         3. Agregar paciente
-        4. Eliminar paciente
-        5. Volver al menu principal
+        4. Editar paciente
+        5. Eliminar paciente
+        6. Volver al menu principal
 \nSu eleccion: `);
     switch (nuevaAccion) {
       case "1":
@@ -44,9 +45,12 @@ export function menuPacientes(veterinaria: Veterinaria): void {
         veterinaria.ingresarPaciente()
         break;
       case "4":
-        veterinaria.eliminarPaciente();
+        veterinaria.editar("paciente");
         break;
       case "5":
+        veterinaria.eliminarPaciente();
+        break;
+      case "6":
         enPacientes = false;
         break;
       default:

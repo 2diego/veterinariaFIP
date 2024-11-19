@@ -95,7 +95,7 @@ export class ClienteRepository {
   }
 
 //Metodos edit
-  public editarCliente(): void {
+  public editarCliente(): void { //aplicar
     if (this.getClientes().length === 0) {
       console.log("\nNo existen clientes.");
       return;
@@ -117,7 +117,7 @@ export class ClienteRepository {
               console.log(`\nSe edito el telefono del cliente ${cliente.getNombre()} (ID ${clienteId}) a ${cliente.getTelefono()} correctamente.`); 
               break;
             case "3":
-              console.log("No se puede editar la direccion del cliente.");
+              console.log("La opcion Editar Direccion no esta disponible para clientes.");
               break;
             default:
               console.error(`\nError: No se pudo editar el cliente con ID ${clienteId}.`);
@@ -127,9 +127,9 @@ export class ClienteRepository {
       }
   }
 
-  /*public editarPaciente(): void {
-    this.pacienteRepo.editarPaciente();
-  }*/
+    public editarPaciente(): void {
+      this.pacienteRepo.editarPaciente();
+    }
 
   public atenderCliente(): void {
     if (this.getClientes().length === 0) {
