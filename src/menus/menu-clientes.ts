@@ -29,7 +29,7 @@ export function menuClientes(veterinaria: Veterinaria): void {
       1. Ver clientes
       2. Ver mascotas de un cliente
       3. Agregar cliente
-      4. Modificar telefono
+      4. Editar cliente
       5. Eliminar cliente
       6. Volver al menu principal
 \nSu eleccion: `);

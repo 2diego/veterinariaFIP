@@ -28,7 +28,7 @@ export class ClienteRepository {
   }
 
   public getPacientesPorCliente(): Paciente[] | undefined {
-    const clienteId: string = solicitarDatos('id', ' del cliente:');
+    const clienteId: string = solicitarDatos('id', ' del cliente');
     let cliente: Cliente | undefined = this.getClientePorId(clienteId);
     if (cliente) {
       let mascotas: Paciente[] = this.pacienteRepo.filterPacientes(clienteId, undefined, true);
@@ -123,7 +123,9 @@ export class ClienteRepository {
               console.error(`\nError: No se pudo editar el cliente con ID ${clienteId}.`);
               break;
           } 
-        }
+        } else {
+            console.error(`\nError: El cliente con ID ${clienteId} no existe.`);
+          }
       }
   }
 
@@ -137,16 +139,18 @@ export class ClienteRepository {
       return;
     } else {
         console.table(this.getClientes());
-        const clienteId: string = solicitarDatos('id', ' del cliente:')
+        const clienteId: string = solicitarDatos('id', ' del cliente')
         const cliente: Cliente | undefined = this.getClientePorId(clienteId);
         if (cliente) {
-          const nombreMascota: string = solicitarDatos('nombre', ' de la mascota:');
+          console.log(`\nEl cliente ${cliente.getNombre()} con ID ${clienteId} tiene las siguientes mascotas:`);
+          console.table(this.pacienteRepo.filterPacientes(clienteId, undefined, true));
+          const nombreMascota: string = solicitarDatos('nombre', ' de la mascota que se va a atender');
           const pacienteFiltrado: Paciente[] = this.pacienteRepo.filterPacientes(clienteId, nombreMascota, true);
           if (pacienteFiltrado.length === 0) {
             console.error(`Error: No existe la mascota con el nombre ${nombreMascota} del cliente con ID ${clienteId}.`);
           } else {
               cliente.setVisitas();
-              console.log(`Se atendio al cliente ${cliente.getNombre()}. Total visitas: ${cliente.getVisitas()}`);
+              console.log(`Se atendio la mascota ${nombreMascota} al cliente ${cliente.getNombre()}. Total visitas: ${cliente.getVisitas()}`);
             }
         } else {
             console.error(`Error: No existe el cliente con ID ${clienteId}.`);

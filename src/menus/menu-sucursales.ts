@@ -20,7 +20,7 @@ export function menuSucursal(veterinaria: Veterinaria): void {
     let nuevaAccion = readlineSync.question(`\nSeleccione que accion desea realizar:
       1. Ver sucursales
       2. Agregar sucursal
-      3. Editar direccion de sucursal
+      3. Editar sucursal
       4. Eliminar sucursal
       5. Volver al menu principal
 \nSu eleccion: `);

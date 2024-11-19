@@ -13,11 +13,12 @@ export class PacienteRepository {
   }
 
   public filterPacientes(id: string, nombre?: string, equal: boolean = false): Paciente [] {
-    return this.pacientes = this.pacientes.filter((p) => {
+    let pacientesFiltrados = this.pacientes.filter((p) => {
       const matchId = p.getId() === id;
       const matchName = nombre ? p.getNombre() === nombre : true;
       return equal ? matchId && matchName : !(matchId && matchName);
     });
+    return pacientesFiltrados;
   }
 
   public ingresarPaciente(paciente: Paciente): void {

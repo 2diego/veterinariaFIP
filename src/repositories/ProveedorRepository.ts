@@ -53,12 +53,12 @@ export class ProveedorRepository {
           let editar: string = solicitarDatos('editar');
           switch (editar) {
             case '1':
-              const nuevoNombre: string = solicitarDatos('nombre', ' del proveedor a editar:');
+              const nuevoNombre: string = solicitarDatos('nombre', ' del proveedor');
               proveedor.setNombre(nuevoNombre);
               console.log('Proveedor editado correctamente.');
               break;
             case '2':
-              const nuevoTelefono: number = solicitarDatos('telefono', ' del proveedor a editar:');
+              const nuevoTelefono: number = solicitarDatos('telefono', ' del proveedor');
               proveedor.setTelefono(nuevoTelefono);
               console.log('Proveedor editado correctamente.');
               break;
